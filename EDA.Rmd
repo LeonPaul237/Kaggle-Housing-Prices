@@ -1,0 +1,78 @@
+---
+title: "EDA - Housing Prices"
+author: Vikram Balakrishnan
+output: html_notebook
+---
+
+```{r, echo = FALSE, warning= FALSE}
+# Reading the data-set from local machine diretory
+setwd("C:\\Users\\Vikram\\Documents\\Kaggle\\House_Prices\\dataset")
+train_data<- read.csv("train.csv")
+```
+
+```{r, echo = FALSE}
+# fucntion definitions
+
+# returns sum of NA's for a passed vector
+count_na<- function(feature)
+{
+  temp<- is.na(feature)
+  count<- sum(temp[which(temp == TRUE)])
+  
+  return(count)
+}
+```
+
+
+# Data sense (non-visual)
+
+#### Dimension of data-set
+```{r, echo = FALSE}
+cat("Number of features:  ", dim(train_data)[2],'\n')
+cat("Number of records:   ", dim(train_data)[1])
+```
+
+
+### Numeric Features - Qty, Names, Missing Values
+```{r, echo = FALSE}
+# Qty
+numeric_features <- train_data[sapply(train_data,is.numeric)]
+cat("Qty - Numeric Features: ", dim(numeric_features)[2] - 2) # Subtract 2 for ID and SalePrice(o/p)
+cat("\n\n\n")
+
+# Names
+cat("Numeric Features \n\n")
+names(numeric_features)
+cat("\n\n")
+
+# Missing Values
+features_with_NA<- apply(numeric_features,2,count_na)
+features_with_NA<- features_with_NA[which(features_with_NA > 0)]
+cat('Numeric Features with NAs \n\n')
+print(features_with_NA)
+```
+
+
+### Non-numeric Features - Qty, Names, Missing Values
+```{r, echo = FALSE}
+# Qty
+non_numeric_features <- train_data[sapply(train_data,is.factor)]
+cat("Qty - Non-numeric Features: ", dim(non_numeric_features)[2] - 2) # Subtract 2 for ID and SalePrice(o/p)
+cat("\n\n\n")
+
+# Names
+cat("Non-numeric Features \n\n")
+names(non_numeric_features)
+cat("\n\n")
+
+# Missing Values
+features_with_NA<- apply(non_numeric_features,2,count_na)
+features_with_NA<- features_with_NA[which(features_with_NA > 0)]
+cat('Non-numeric Features with NAs \n\n')
+print(features_with_NA)
+```
+
+
+Histogram
+Box Plots
+
